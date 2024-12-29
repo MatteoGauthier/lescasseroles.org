@@ -1,17 +1,37 @@
 [
   {
-    "name": "Politics",
-    "slug": "politics",
-    "description": "Politics"
+    "name": "Politique",
+    "slug": "politique",
+    "description": "Controverses liées à la vie politique et aux institutions"
+  },
+  {
+    "name": "Éthique et Intégrité",
+    "slug": "ethique",
+    "description": "Questions d'éthique, de morale et d'intégrité dans la vie publique"
+  },
+  {
+    "name": "Lobbying",
+    "slug": "lobbying",
+    "description": "Controverses impliquant des groupes d'intérêts et leurs influences"
+  },
+  {
+    "name": "Justice",
+    "slug": "justice",
+    "description": "Affaires judiciaires et questions légales"
+  },
+  {
+    "name": "Médias",
+    "slug": "medias",
+    "description": "Controverses liées aux médias et au journalisme d'investigation"
   },
   {
     "name": "Internet",
     "slug": "internet",
-    "description": "Internet"
+    "description": "Controverses liées au numérique et aux réseaux sociaux"
   },
   {
-    "name": "Scandal",
-    "slug": "scandal",
-    "description": "Scandal"
+    "name": "Scandale",
+    "slug": "scandale",
+    "description": "Révélations et scandales publics majeurs"
   }
 ]
