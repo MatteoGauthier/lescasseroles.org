@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Politics",
+    "slug": "politics",
+    "description": "Politics"
+  },
+  {
+    "name": "Internet",
+    "slug": "internet",
+    "description": "Internet"
+  },
+  {
+    "name": "Scandal",
+    "slug": "scandal",
+    "description": "Scandal"
+  }
+]
