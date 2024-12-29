@@ -19,7 +19,7 @@ const entity = defineCollection({
 // Controversy collection
 const controversy = defineCollection({
   loader: glob({
-    pattern: "**/*.md",
+    pattern: "**/*.{md,mdx}",
     base: "content/controversies",
   }),
   schema: z.object({

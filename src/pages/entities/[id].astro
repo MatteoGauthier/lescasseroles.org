@@ -1,0 +1,194 @@
+---
+import { getCollection, getEntries } from "astro:content"
+import Layout from "../../layouts/Layout.astro"
+
+export async function getStaticPaths() {
+  const entities = await getCollection("entity")
+  return entities.map((entity) => ({
+    params: { id: entity.id },
+    props: { entity },
+  }))
+}
+
+const { entity } = Astro.props
+
+// Get all controversies where this entity is involved
+const allControversies = await getCollection("controversy")
+const relatedControversies = allControversies
+  .filter((controversy) =>
+    controversy.data.entities.some((ref) => ref.id === entity.id)
+  )
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+
+// Calculate controversy statistics
+const stats = {
+  total: relatedControversies.length,
+  byImpact: {
+    MAJOR: relatedControversies.filter((c) => c.data.impact === "MAJOR").length,
+    MODERATE: relatedControversies.filter((c) => c.data.impact === "MODERATE").length,
+    MINOR: relatedControversies.filter((c) => c.data.impact === "MINOR").length,
+  },
+  byStatus: {
+    ALLEGED: relatedControversies.filter((c) => c.data.status === "ALLEGED").length,
+    CONFIRMED: relatedControversies.filter((c) => c.data.status === "CONFIRMED").length,
+    DISPROVEN: relatedControversies.filter((c) => c.data.status === "DISPROVEN").length,
+  },
+}
+---
+
+<Layout title={entity.data.name}>
+  <div class="container mx-auto py-8">
+    <div class="max-w-4xl mx-auto">
+      <!-- Entity Header -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8 mb-8">
+        <div class="flex items-start gap-6">
+          <div class="flex-shrink-0">
+            {entity.data.image ? (
+              <img
+                src={entity.data.image}
+                alt={entity.data.name}
+                class="w-32 h-32 rounded-full object-cover"
+              />
+            ) : (
+              <div class="w-32 h-32 rounded-full bg-gray-100 flex items-center justify-center">
+                <span class="text-4xl text-gray-400">
+                  {entity.data.name.charAt(0)}
+                </span>
+              </div>
+            )}
+          </div>
+          <div class="flex-grow">
+            <h1 class="text-3xl font-bold text-gray-900">{entity.data.name}</h1>
+            {entity.data.description && (
+              <p class="text-lg text-gray-600 mt-2">{entity.data.description}</p>
+            )}
+            <div class="mt-4">
+              <span class="inline-block px-3 py-1 text-sm font-medium text-gray-600 bg-gray-100 rounded-full">
+                {entity.data.type}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controversy Statistics -->
+      {stats.total > 0 && (
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8 mb-8">
+          <h2 class="text-xl font-bold text-gray-900 mb-6">Controversy Overview</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <h3 class="text-sm font-medium text-gray-500 mb-4">By Impact</h3>
+              <div class="space-y-2">
+                <div class="flex justify-between items-center">
+                  <span class="text-sm text-red-800">Major</span>
+                  <span class="px-2 py-1 bg-red-100 text-red-800 rounded-full text-sm">
+                    {stats.byImpact.MAJOR}
+                  </span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-sm text-yellow-800">Moderate</span>
+                  <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">
+                    {stats.byImpact.MODERATE}
+                  </span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-sm text-green-800">Minor</span>
+                  <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-sm">
+                    {stats.byImpact.MINOR}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-sm font-medium text-gray-500 mb-4">By Status</h3>
+              <div class="space-y-2">
+                <div class="flex justify-between items-center">
+                  <span class="text-sm text-yellow-700">Alleged</span>
+                  <span class="px-2 py-1 bg-yellow-50 text-yellow-700 rounded-full text-sm">
+                    {stats.byStatus.ALLEGED}
+                  </span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-sm text-green-700">Confirmed</span>
+                  <span class="px-2 py-1 bg-green-50 text-green-700 rounded-full text-sm">
+                    {stats.byStatus.CONFIRMED}
+                  </span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-sm text-red-700">Disproven</span>
+                  <span class="px-2 py-1 bg-red-50 text-red-700 rounded-full text-sm">
+                    {stats.byStatus.DISPROVEN}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-sm font-medium text-gray-500 mb-4">Total</h3>
+              <div class="text-4xl font-bold text-gray-900">{stats.total}</div>
+              <div class="text-sm text-gray-500">Controversies</div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <!-- Controversy Timeline -->
+      {relatedControversies.length > 0 && (
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+          <h2 class="text-xl font-bold text-gray-900 mb-6">Controversy Timeline</h2>
+          <div class="space-y-6">
+            {relatedControversies.map((controversy) => (
+              <a
+                href={`/controversies/${controversy.id}`}
+                class="block p-6 bg-orange-50 rounded-lg hover:bg-orange-100 transition-colors relative"
+              >
+                <div class="flex items-center justify-between mb-2">
+                  <h3 class="text-xl font-semibold text-gray-900">
+                    {controversy.data.title}
+                  </h3>
+                  <div class="flex items-center gap-2">
+                    <span
+                      class:list={[
+                        "px-3 py-1 text-sm font-medium rounded-full",
+                        {
+                          "bg-red-100 text-red-800": controversy.data.impact === "MAJOR",
+                          "bg-yellow-100 text-yellow-800":
+                            controversy.data.impact === "MODERATE",
+                          "bg-green-100 text-green-800":
+                            controversy.data.impact === "MINOR",
+                        },
+                      ]}
+                    >
+                      {controversy.data.impact}
+                    </span>
+                    <span
+                      class:list={[
+                        "px-2 py-1 text-sm font-medium rounded-full",
+                        {
+                          "bg-yellow-50 text-yellow-700":
+                            controversy.data.status === "ALLEGED",
+                          "bg-green-50 text-green-700":
+                            controversy.data.status === "CONFIRMED",
+                          "bg-red-50 text-red-700":
+                            controversy.data.status === "DISPROVEN",
+                        },
+                      ]}
+                    >
+                      {controversy.data.status}
+                    </span>
+                  </div>
+                </div>
+                <p class="text-gray-600 mb-4">{controversy.data.description}</p>
+                <div class="flex items-center text-sm text-gray-500">
+                  <span class="mr-4">
+                    {new Date(controversy.data.date).toLocaleDateString()}
+                  </span>
+                  <span class="text-sm text-blue-600">Read more →</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+</Layout>
