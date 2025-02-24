@@ -14,3 +14,9 @@ Une base de données collaborative documentant les controverses, leurs acteurs e
 - [MDX](https://mdxjs.com) - Markdown enrichi
 - [Astro Image](https://docs.astro.build/en/guides/images/) - Optimisation d'images
 - [Astro Content Collections](https://docs.astro.build/en/guides/content-collections/) - Gestion de contenu
+
+## Todo
+
+- [ ] Easy way to contribute
+- [ ] Guideline for entities
+- [ ] Entity score
