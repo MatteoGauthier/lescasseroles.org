@@ -1,0 +1,8 @@
+This project is a Astro app.
+
+- Content is written in Markdown (MDX or Markdown) and JSON stored in the `content` folder.
+- Use TailwindCSS for styling.
+- Use Astro Embed for embedding content like tweets, youtube videos, etc.
+- Use Astro Image for images.
+- Use Astro Content to manage the content
+- The frontend text (visible to the user) should be written in French.

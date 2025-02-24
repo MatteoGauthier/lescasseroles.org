@@ -39,18 +39,18 @@ const controversiesByCategory = await Promise.all(
 <Layout title="Les Casseroles - Controverses et Polémiques">
   <main>
     <!-- Hero Section -->
-    <div class="bg-gradient-to-br from-orange-50 to-orange-100">
+    <div class="bg-gradient-to-br from-surface-900/50 to-surface-900">
       <div class="container mx-auto py-16 px-4">
         <div class="max-w-3xl">
-          <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Explorez les controverses et polémiques</h1>
-          <p class="text-xl text-gray-600 mb-8">
+          <h1 class="text-4xl md:text-5xl font-bold text-surface-100 mb-4">Explorez les controverses et polémiques</h1>
+          <p class="text-xl text-surface-300 mb-8">
             Une base de données collaborative documentant les controverses, leurs acteurs et leurs impacts sur la
             société.
           </p>
           <div class="flex gap-4">
             <a
               href="/controversies"
-              class="inline-flex items-center px-6 py-3 bg-orange-600 text-white font-medium rounded-lg hover:bg-orange-700 transition-colors"
+              class="inline-flex items-center px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors"
             >
               Explorer les controverses
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
@@ -62,7 +62,7 @@ const controversiesByCategory = await Promise.all(
             </a>
             <a
               href="/entities"
-              class="inline-flex items-center px-6 py-3 bg-white text-orange-600 font-medium rounded-lg hover:bg-orange-50 transition-colors"
+              class="inline-flex items-center px-6 py-3 bg-white text-primary-600 font-medium rounded-lg hover:bg-primary-50 transition-colors"
             >
               Voir les entités
             </a>
@@ -72,22 +72,22 @@ const controversiesByCategory = await Promise.all(
     </div>
 
     <!-- Recent Controversies -->
-    <section class="py-16 bg-white">
+    <section class="py-16 bg-surface-900">
       <div class="container mx-auto px-4">
         <div class="flex justify-between items-center mb-8">
-          <h2 class="text-2xl font-bold text-gray-900">Controverses Récentes</h2>
-          <a href="/controversies" class="text-orange-600 hover:text-orange-700 font-medium"> Voir tout → </a>
+          <h2 class="text-2xl font-bold text-surface-100">Controverses Récentes</h2>
+          <a href="/controversies" class="text-primary-600 hover:text-primary-700 font-medium"> Voir tout → </a>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {
             recentControversies.map((controversy) => (
               <a
                 href={`/controversies/${controversy.id}`}
-                class="block bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow"
+                class="block bg-surface-800 rounded-lg border border-surface-200/10 shadow-sm hover:shadow-md transition-shadow"
               >
                 <div class="p-6">
                   <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-lg font-semibold text-gray-900 line-clamp-1">{controversy.data.title}</h3>
+                    <h3 class="text-lg font-semibold text-surface-100 line-clamp-1">{controversy.data.title}</h3>
                     <span
                       class:list={[
                         "px-2 py-1 text-xs font-medium rounded-full",
@@ -101,8 +101,8 @@ const controversiesByCategory = await Promise.all(
                       {controversy.data.impact}
                     </span>
                   </div>
-                  <p class="text-gray-600 text-sm line-clamp-2 mb-4">{controversy.data.description}</p>
-                  <div class="flex items-center text-sm text-gray-500">
+                  <p class="text-surface-300 text-sm line-clamp-2 mb-4">{controversy.data.description}</p>
+                  <div class="flex items-center text-sm text-surface-300">
                     <span>{new Date(controversy.data.date).toLocaleDateString()}</span>
                   </div>
                 </div>
@@ -114,11 +114,11 @@ const controversiesByCategory = await Promise.all(
     </section>
 
     <!-- Most Involved Entities -->
-    <section class="py-16 bg-gray-50">
+    <section class="py-16 bg-surface-900">
       <div class="container mx-auto px-4">
         <div class="flex justify-between items-center mb-8">
-          <h2 class="text-2xl font-bold text-gray-900">Entités Notables</h2>
-          <a href="/entities" class="text-orange-600 hover:text-orange-700 font-medium"> Voir tout → </a>
+          <h2 class="text-2xl font-bold text-surface-100">Entités Notables</h2>
+          <a href="/entities" class="text-primary-600 hover:text-primary-700 font-medium"> Voir tout → </a>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
           {
@@ -131,18 +131,18 @@ const controversiesByCategory = await Promise.all(
                       alt={entity.data.name}
                       width={96}
                       height={96}
-                      class="w-24 h-24 rounded-full object-cover mx-auto border-2 border-white shadow-sm group-hover:shadow-md transition-shadow"
+                      class="w-24 h-24 rounded-full object-cover mx-auto border-2 border-surface-100 shadow-sm group-hover:shadow-md transition-shadow"
                     />
                   ) : (
-                    <div class="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center mx-auto border-2 border-white shadow-sm group-hover:shadow-md transition-shadow">
-                      <span class="text-3xl text-gray-400">{entity.data.name.charAt(0)}</span>
+                    <div class="w-24 h-24 rounded-full bg-surface-800 flex items-center justify-center mx-auto border-2 border-surface-100 shadow-sm group-hover:shadow-md transition-shadow">
+                      <span class="text-3xl text-surface-400">{entity.data.name.charAt(0)}</span>
                     </div>
                   )}
                 </div>
-                <h3 class="font-medium text-gray-900 group-hover:text-orange-600 transition-colors">
+                <h3 class="font-medium text-surface-100 group-hover:text-primary-600 transition-colors">
                   {entity.data.name}
                 </h3>
-                <p class="text-sm text-gray-500">
+                <p class="text-sm text-surface-300">
                   {count} controverse{count > 1 ? "s" : ""}
                 </p>
               </a>
@@ -153,31 +153,31 @@ const controversiesByCategory = await Promise.all(
     </section>
 
     <!-- Categories -->
-    <section class="py-16 bg-white">
+    <section class="py-16 bg-surface-900">
       <div class="container mx-auto px-4">
-        <h2 class="text-2xl font-bold text-gray-900 mb-8">Explorer par Catégorie</h2>
+        <h2 class="text-2xl font-bold text-surface-100 mb-8">Explorer par Catégorie</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {
             controversiesByCategory.map(({ category, controversies }) => (
-              <div class="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
+              <div class="bg-surface-800 rounded-lg border border-surface-200/10 shadow-sm overflow-hidden">
                 <div class="p-6">
-                  <h3 class="text-xl font-semibold text-gray-900 mb-4">{category.data.name}</h3>
-                  {category.data.description && <p class="text-gray-600 text-sm mb-4">{category.data.description}</p>}
+                  <h3 class="text-xl font-semibold text-surface-100 mb-4">{category.data.name}</h3>
+                  {category.data.description && <p class="text-surface-300 text-sm mb-4">{category.data.description}</p>}
                   <div class="space-y-4">
                     {controversies.map((controversy) => (
                       <a
                         href={`/controversies/${controversy.id}`}
-                        class="block hover:bg-orange-50 p-3 -mx-3 rounded-lg transition-colors"
+                        class="block hover:bg-surface-700 p-3 -mx-3 rounded-lg transition-colors"
                       >
-                        <h4 class="font-medium text-gray-900 mb-1">{controversy.data.title}</h4>
-                        <p class="text-sm text-gray-500">{new Date(controversy.data.date).toLocaleDateString()}</p>
+                        <h4 class="font-medium text-surface-100 mb-1">{controversy.data.title}</h4>
+                        <p class="text-sm text-surface-300">{new Date(controversy.data.date).toLocaleDateString()}</p>
                       </a>
                     ))}
                   </div>
                   {controversies.length > 0 && (
                     <a
                       href={`/categories/${category.id}`}
-                      class="inline-block mt-4 text-sm text-orange-600 hover:text-orange-700 font-medium"
+                      class="inline-block mt-4 text-sm text-primary-600 hover:text-primary-700 font-medium"
                     >
                       Voir plus →
                     </a>

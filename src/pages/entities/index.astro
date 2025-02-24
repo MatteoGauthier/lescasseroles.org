@@ -25,15 +25,15 @@ const types = [...new Set(entities.map((entity) => entity.data.type))]
     <div class="max-w-7xl mx-auto">
       <!-- Header with Search -->
       <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900 mb-4">Entités</h1>
+        <h1 class="text-3xl font-bold text-surface-100 mb-4">Entités</h1>
         <div class="relative">
           <input
             type="search"
             placeholder="Rechercher une entité..."
-            class="w-full px-4 py-2 pl-10 pr-4 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            class="w-full px-4 py-2 pl-10 pr-4 rounded-lg border border-surface-200/10 bg-surface-800 text-surface-100 placeholder-surface-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           />
           <svg
-            class="absolute left-3 top-2.5 h-5 w-5 text-gray-400"
+            class="absolute left-3 top-2.5 h-5 w-5 text-surface-400"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -48,18 +48,18 @@ const types = [...new Set(entities.map((entity) => entity.data.type))]
 
       <div class="flex flex-col md:flex-row gap-8">
         <!-- Filters -->
-        <aside class="w-full md:w-64 bg-white p-6 rounded-lg shadow-sm border border-gray-200 h-fit">
-          <h2 class="text-lg font-semibold text-gray-900 mb-4">Filtres</h2>
+        <aside class="w-full md:w-64 bg-surface-800 p-6 rounded-lg shadow-sm border border-surface-200/10 h-fit">
+          <h2 class="text-lg font-semibold text-surface-100 mb-4">Filtres</h2>
 
           <!-- Type Filter -->
           <div class="mb-6">
-            <h3 class="text-sm font-medium text-gray-700 mb-2">Type</h3>
+            <h3 class="text-sm font-medium text-surface-300 mb-2">Type</h3>
             <div class="space-y-2">
               {
                 types.map((type) => (
                   <label class="flex items-center">
-                    <input type="checkbox" class="form-checkbox text-orange-600 rounded" value={type} />
-                    <span class="ml-2 text-sm text-gray-600">{type}</span>
+                    <input type="checkbox" class="form-checkbox text-primary-600 rounded bg-surface-700 border-surface-600" value={type} />
+                    <span class="ml-2 text-sm text-surface-300">{type}</span>
                   </label>
                 ))
               }
@@ -74,36 +74,36 @@ const types = [...new Set(entities.map((entity) => entity.data.type))]
               entityInvolvementCount.map(({ entity, count }) => (
                 <a
                   href={`/entities/${entity.id}`}
-                  class="block bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden group"
+                  class="block bg-surface-800 rounded-lg border border-surface-200/10 shadow-sm hover:shadow-md transition-shadow overflow-hidden group"
                 >
-                  <div class="aspect-w-16 aspect-h-9 bg-gray-100">
+                  <div class="aspect-w-16 aspect-h-9 bg-surface-700">
                     {entity.data.image ? (
                       <Image
                         src={entity.data.image}
                         alt={entity.data.name}
-                        width={100}
-                        height={100}
-                        class="w-full h-full object-cover"
+                        width={256}
+                        height={256}
+                        class="w-full h-full aspect-square object-cover"
                       />
                     ) : (
-                      <div class="w-full h-full flex items-center justify-center bg-orange-50">
-                        <span class="text-6xl text-orange-200 font-bold">{entity.data.name.charAt(0)}</span>
+                      <div class="w-full h-full flex items-center justify-center bg-surface-700">
+                        <span class="text-6xl text-surface-500 font-bold">{entity.data.name.charAt(0)}</span>
                       </div>
                     )}
                   </div>
                   <div class="p-6">
                     <div class="flex items-start justify-between mb-2">
-                      <h2 class="text-lg font-semibold text-gray-900 group-hover:text-orange-600 transition-colors">
+                      <h2 class="text-lg font-semibold text-surface-100 group-hover:text-primary-400 transition-colors">
                         {entity.data.name}
                       </h2>
-                      <span class="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full">
+                      <span class="px-2 py-1 text-xs font-medium bg-surface-700 text-surface-300 rounded-full">
                         {entity.data.type}
                       </span>
                     </div>
                     {entity.data.description && (
-                      <p class="text-sm text-gray-600 mb-4 line-clamp-2">{entity.data.description}</p>
+                      <p class="text-sm text-surface-300 mb-4 line-clamp-2">{entity.data.description}</p>
                     )}
-                    <div class="flex items-center text-sm text-gray-500">
+                    <div class="flex items-center text-sm text-surface-400">
                       <span>
                         {count} controverse{count > 1 ? "s" : ""}
                       </span>

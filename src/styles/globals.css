@@ -1,6 +1,33 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+@theme {
+  --font-sans: "Space Grotesk Variable", "sans-serif";
+  --font-mono: "IBM Plex Mono", "monospace";
+
+  --color-primary-50: #f5f6ff;
+  --color-primary-100: #ebeeff;
+  --color-primary-200: #d8dfff;
+  --color-primary-300: #b6c2ff;
+  --color-primary-400: #8e9dff;
+  --color-primary-500: #6674ff;
+  --color-primary-600: #3d45ff;
+  --color-primary-700: #2a2ee6;
+  --color-primary-800: #1f22b8;
+  --color-primary-900: #1a1c94;
+
+  --color-surface-50: #f7f7f8;
+  --color-surface-100: #eeeef0;
+  --color-surface-200: #d8d9dd;
+  --color-surface-300: #b6b7be;
+  --color-surface-400: #8e8f99;
+  --color-surface-500: #6b6c77;
+  --color-surface-600: #515259;
+  --color-surface-700: #3f3f45;
+  --color-surface-800: #27272a;
+  --color-surface-900: #18181b;
+}
+
 .modal {
   position: fixed;
   top: 50%;
