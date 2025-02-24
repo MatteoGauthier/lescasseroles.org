@@ -1,0 +1,34 @@
+[
+  {
+    "name": "Twitter",
+    "description": "Réseau social de microblogging",
+    "slug": "twitter",
+    "website": "https://twitter.com",
+    "tags": ["independant"],
+    "links": ["https://twitter.com/about"]
+  },
+  {
+    "name": "Le Monde",
+    "description": "Journal quotidien français de référence",
+    "slug": "le-monde",
+    "website": "https://www.lemonde.fr",
+    "tags": ["independant"],
+    "links": ["https://www.lemonde.fr/qui-sommes-nous"]
+  },
+  {
+    "name": "Ouest-France",
+    "description": "Premier quotidien français",
+    "slug": "ouest-france",
+    "website": "https://www.ouest-france.fr",
+    "tags": ["independant"],
+    "links": ["https://www.ouest-france.fr/qui-sommes-nous"]
+  },
+  {
+    "name": "RTL",
+    "description": "Radio généraliste française d'information",
+    "slug": "rtl",
+    "website": "https://www.rtl.fr",
+    "tags": ["independant"],
+    "links": ["https://www.rtl.fr/qui-sommes-nous"]
+  }
+] 

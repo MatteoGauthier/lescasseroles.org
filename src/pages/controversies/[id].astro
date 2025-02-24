@@ -1,6 +1,8 @@
 ---
 import { getCollection, render, getEntry, getEntries } from "astro:content"
 import Layout from "../../layouts/Layout.astro"
+import { coerce } from "astro:schema"
+import type { CollectionEntry } from "astro:content"
 
 // 1. Generate a new path for every collection entry
 export async function getStaticPaths() {
@@ -16,6 +18,23 @@ const { Content } = await render(controversy)
 
 const entities = await getEntries(controversy.data.entities)
 const categories = await getEntries(controversy.data.categories)
+
+let informationSources = new Map<string, CollectionEntry<"source">["data"]>()
+
+for (const source of controversy.data.sources) {
+  const infoSources = source.source
+
+  if (infoSources && infoSources.length > 0) {
+    for (const infoSource of infoSources) {
+      const sourceEntry = await getEntry("source", infoSource.id)
+      if (sourceEntry) {
+        informationSources.set(infoSource.id, sourceEntry.data)
+      }
+    }
+  }
+}
+
+console.log(informationSources)
 ---
 
 <Layout title={controversy.data.title}>
@@ -89,23 +108,43 @@ const categories = await getEntries(controversy.data.categories)
         <!-- Involved Entities -->
         <div class="mb-8">
           <h2 class="text-sm font-medium text-gray-500 mb-4">Involved Entities</h2>
-          <div class="flex flex-wrap gap-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             {
               entities.map((entity) => (
                 <a
                   href={`/entities/${entity.id}`}
-                  class="flex items-center p-4 bg-white rounded-lg shadow-sm border border-orange-100 max-w-xs hover:bg-orange-50 transition-colors"
+                  class="block bg-orange-50/30 hover:bg-orange-50 transition-colors rounded-lg border border-orange-100"
                 >
-                  {entity.data.image && (
-                    <img
-                      src={entity.data.image}
-                      alt={entity.data.name}
-                      class="w-12 h-12 rounded-full object-cover mr-4"
-                    />
-                  )}
-                  <div>
-                    <h3 class="font-semibold text-gray-900">{entity.data.name}</h3>
-                    {entity.data.description && <p class="text-sm text-gray-600">{entity.data.description}</p>}
+                  <div class="p-4">
+                    <div class="flex items-center gap-3">
+                      {(() => {
+                        const initials = entity.data.name
+                          .split(" ")
+                          .map((word) => word[0])
+                          .slice(0, 2)
+                          .join("")
+                          .toUpperCase()
+
+                        return entity.data.image ? (
+                          <img
+                            src={entity.data.image}
+                            alt={entity.data.name}
+                            class="w-12 h-12 rounded-full object-cover flex-shrink-0 entity-image"
+                            data-initials={initials}
+                          />
+                        ) : (
+                          <div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0 text-orange-700 font-medium">
+                            {initials}
+                          </div>
+                        )
+                      })()}
+                      <div>
+                        <h3 class="font-medium text-gray-900">{entity.data.name}</h3>
+                        {entity.data.description && (
+                          <p class="text-sm text-gray-600 line-clamp-2">{entity.data.description}</p>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </a>
               ))
@@ -114,7 +153,7 @@ const categories = await getEntries(controversy.data.categories)
         </div>
 
         <!-- Main Content -->
-        <div class="prose max-w-none">
+        <div class="prose-sm max-w-none">
           <Content />
         </div>
 
@@ -127,7 +166,108 @@ const categories = await getEntries(controversy.data.categories)
                 {controversy.data.sources.map((source) => (
                   <div class="p-4 bg-gray-50 rounded-lg">
                     <div class="flex items-center justify-between mb-2">
-                      <h3 class="font-medium text-gray-900">{source.shortName || source.title}</h3>
+                      <div class="flex items-center gap-2">
+                        <h3 class="font-medium text-gray-900">{source.shortName || source.title}</h3>
+                        {source.source && source.source.length > 0 && (
+                          <div class="flex items-center gap-2">
+                            {source.source.map((sourceInfo) => (
+                              <>
+                                {(() => {
+                                  const sourceData = informationSources.get(sourceInfo.id)
+                                  if (!sourceData) return null
+
+                                  return (
+                                    <>
+                                      <dialog
+                                        id={sourceInfo.id}
+                                        class="mt-8 rounded-xl mx-auto bg-white p-6 transition-all duration-300 shadow-3xl backdrop:backdrop-blur-md backdrop:bg-opacity-50 w-full max-w-2xl"
+                                      >
+                                        <div class="space-y-4">
+                                          {sourceData.name && <h3 class="text-xl font-bold">{sourceData.name}</h3>}
+
+                                          {sourceData.description && (
+                                            <div>
+                                              <h4 class="text-sm font-medium text-gray-500">Description</h4>
+                                              <p class="text-gray-700">{sourceData.description}</p>
+                                            </div>
+                                          )}
+
+                                          {sourceData.website && (
+                                            <div>
+                                              <h4 class="text-sm font-medium text-gray-500">Website</h4>
+                                              <a
+                                                href={sourceData.website}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                class="text-blue-600 hover:underline"
+                                              >
+                                                {sourceData.website}
+                                              </a>
+                                            </div>
+                                          )}
+
+                                          {sourceData.links?.length > 0 && (
+                                            <div>
+                                              <h4 class="text-sm font-medium text-gray-500">Additional Links</h4>
+                                              <ul class="list-disc list-inside space-y-1">
+                                                {sourceData.links.map((link) => (
+                                                  <li>
+                                                    <a
+                                                      href={link}
+                                                      target="_blank"
+                                                      rel="noopener noreferrer"
+                                                      class="text-blue-600 hover:underline"
+                                                    >
+                                                      {link}
+                                                    </a>
+                                                  </li>
+                                                ))}
+                                              </ul>
+                                            </div>
+                                          )}
+
+                                          <button
+                                            type="button"
+                                            onclick={`document.getElementById('${sourceInfo.id}').close()`}
+                                            class="mt-6 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg text-sm font-medium transition-colors"
+                                          >
+                                            Close
+                                          </button>
+                                        </div>
+                                      </dialog>
+                                      <button
+                                        type="button"
+                                        onclick={`document.getElementById('${sourceInfo.id}').showModal()`}
+                                        class="px-2 cursor-pointer py-1 bg-blue-50 text-blue-700 rounded text-xs flex items-center gap-1"
+                                      >
+                                        <span>{sourceData.name}</span>
+                                        <svg
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          class="w-4 h-4"
+                                          width="32"
+                                          height="32"
+                                          viewBox="0 0 24 24"
+                                        >
+                                          <g
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                          >
+                                            <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0-18 0m9-3h.01" />
+                                            <path d="M11 12h1v4h1" />
+                                          </g>
+                                        </svg>
+                                      </button>
+                                    </>
+                                  )
+                                })()}
+                              </>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                       <div class="flex items-center gap-2">
                         <span
                           class:list={[
@@ -168,3 +308,17 @@ const categories = await getEntries(controversy.data.categories)
     </div>
   </div>
 </Layout>
+
+<script>
+  document.querySelectorAll(".entity-image").forEach((img) => {
+    img.addEventListener("error", (e) => {
+      const target = e.target as HTMLImageElement
+      const initials = target.dataset.initials
+      target.style.display = "none"
+      target.insertAdjacentHTML(
+        "afterend",
+        `<div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0 text-orange-700 font-medium">${initials}</div>`
+      )
+    })
+  })
+</script>
