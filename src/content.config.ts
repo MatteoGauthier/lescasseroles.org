@@ -16,6 +16,18 @@ const entity = defineCollection({
   }),
 })
 
+const categorySlugs = ["politique", "ethique", "lobbying", "justice", "medias", "internet", "scandale"] as const
+
+// Category collection
+const category = defineCollection({
+  loader: file("content/categories.json"),
+  schema: z.object({
+    name: z.string(),
+    slug: z.enum(categorySlugs),
+    description: z.string().optional(),
+  }),
+})
+
 // Controversy collection
 const controversy = defineCollection({
   loader: glob({
@@ -45,16 +57,6 @@ const controversy = defineCollection({
       })
     ),
     categories: z.array(reference("category")),
-  }),
-})
-
-// Category collection
-const category = defineCollection({
-  loader: file("content/categories.json"),
-  schema: z.object({
-    name: z.string(),
-    slug: z.string(),
-    description: z.string().optional(),
   }),
 })
 

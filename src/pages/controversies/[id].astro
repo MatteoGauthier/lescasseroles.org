@@ -27,24 +27,28 @@ const categories = await getEntries(controversy.data.categories)
           <div class="flex items-center justify-between mb-4">
             <h1 class="text-3xl font-bold text-gray-900">{controversy.data.title}</h1>
             <div class="flex items-center gap-3">
-              <span class:list={[
-                "px-3 py-1 text-sm font-medium rounded-full",
-                {
-                  "bg-red-100 text-red-800": controversy.data.impact === "MAJOR",
-                  "bg-yellow-100 text-yellow-800": controversy.data.impact === "MODERATE",
-                  "bg-green-100 text-green-800": controversy.data.impact === "MINOR",
-                },
-              ]}>
+              <span
+                class:list={[
+                  "px-3 py-1 text-sm font-medium rounded-full",
+                  {
+                    "bg-red-100 text-red-800": controversy.data.impact === "MAJOR",
+                    "bg-yellow-100 text-yellow-800": controversy.data.impact === "MODERATE",
+                    "bg-green-100 text-green-800": controversy.data.impact === "MINOR",
+                  },
+                ]}
+              >
                 {controversy.data.impact} Impact
               </span>
-              <span class:list={[
-                "px-3 py-1 text-sm font-medium rounded-full",
-                {
-                  "bg-yellow-50 text-yellow-700": controversy.data.status === "ALLEGED",
-                  "bg-green-50 text-green-700": controversy.data.status === "CONFIRMED",
-                  "bg-red-50 text-red-700": controversy.data.status === "DISPROVEN",
-                },
-              ]}>
+              <span
+                class:list={[
+                  "px-3 py-1 text-sm font-medium rounded-full",
+                  {
+                    "bg-yellow-50 text-yellow-700": controversy.data.status === "ALLEGED",
+                    "bg-green-50 text-green-700": controversy.data.status === "CONFIRMED",
+                    "bg-red-50 text-red-700": controversy.data.status === "DISPROVEN",
+                  },
+                ]}
+              >
                 {controversy.data.status}
               </span>
             </div>
@@ -69,43 +73,43 @@ const categories = await getEntries(controversy.data.categories)
         </div>
 
         <!-- Categories -->
-        {categories.length > 0 && (
-          <div class="mb-6">
-            <h2 class="text-sm font-medium text-gray-500 mb-2">Categories</h2>
-            <div class="flex flex-wrap gap-2">
-              {categories.map((category) => (
-                <span class="px-3 py-1 bg-purple-50 text-purple-700 rounded-full text-sm">
-                  {category.data.name}
-                </span>
-              ))}
+        {
+          categories.length > 0 && (
+            <div class="mb-6">
+              <h2 class="text-sm font-medium text-gray-500 mb-2">Categories</h2>
+              <div class="flex flex-wrap gap-2">
+                {categories.map((category) => (
+                  <span class="px-3 py-1 bg-purple-50 text-purple-700 rounded-full text-sm">{category.data.name}</span>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )
+        }
 
         <!-- Involved Entities -->
         <div class="mb-8">
           <h2 class="text-sm font-medium text-gray-500 mb-4">Involved Entities</h2>
           <div class="flex flex-wrap gap-4">
-            {entities.map((entity) => (
-              <a
-                href={`/entities/${entity.id}`}
-                class="flex items-center p-4 bg-white rounded-lg shadow-sm border border-orange-100 max-w-xs hover:bg-orange-50 transition-colors"
-              >
-                {entity.data.image && (
-                  <img
-                    src={entity.data.image}
-                    alt={entity.data.name}
-                    class="w-12 h-12 rounded-full object-cover mr-4"
-                  />
-                )}
-                <div>
-                  <h3 class="font-semibold text-gray-900">{entity.data.name}</h3>
-                  {entity.data.description && (
-                    <p class="text-sm text-gray-600">{entity.data.description}</p>
+            {
+              entities.map((entity) => (
+                <a
+                  href={`/entities/${entity.id}`}
+                  class="flex items-center p-4 bg-white rounded-lg shadow-sm border border-orange-100 max-w-xs hover:bg-orange-50 transition-colors"
+                >
+                  {entity.data.image && (
+                    <img
+                      src={entity.data.image}
+                      alt={entity.data.name}
+                      class="w-12 h-12 rounded-full object-cover mr-4"
+                    />
                   )}
-                </div>
-              </a>
-            ))}
+                  <div>
+                    <h3 class="font-semibold text-gray-900">{entity.data.name}</h3>
+                    {entity.data.description && <p class="text-sm text-gray-600">{entity.data.description}</p>}
+                  </div>
+                </a>
+              ))
+            }
           </div>
         </div>
 
@@ -115,51 +119,51 @@ const categories = await getEntries(controversy.data.categories)
         </div>
 
         <!-- Sources -->
-        {controversy.data.sources.length > 0 && (
-          <div class="mt-8 pt-8 border-t">
-            <h2 class="text-xl font-bold text-gray-900 mb-4">Sources</h2>
-            <div class="space-y-4">
-              {controversy.data.sources.map((source) => (
-                <div class="p-4 bg-gray-50 rounded-lg">
-                  <div class="flex items-center justify-between mb-2">
-                    <h3 class="font-medium text-gray-900">
-                      {source.shortName || source.title}
-                    </h3>
-                    <div class="flex items-center gap-2">
-                      <span class:list={[
-                        "px-2 py-1 text-xs font-medium rounded",
-                        {
-                          "bg-red-50 text-red-700": source.reliability === "LOW",
-                          "bg-yellow-50 text-yellow-700": source.reliability === "MEDIUM",
-                          "bg-green-50 text-green-700": source.reliability === "HIGH",
-                        },
-                      ]}>
-                        {source.reliability} Reliability
-                      </span>
-                      <span class="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs">
-                        {source.type.replace(/_/g, " ")}
-                      </span>
+        {
+          controversy.data.sources.length > 0 && (
+            <div class="mt-8 pt-8 border-t">
+              <h2 class="text-xl font-bold text-gray-900 mb-4">Sources</h2>
+              <div class="space-y-4">
+                {controversy.data.sources.map((source) => (
+                  <div class="p-4 bg-gray-50 rounded-lg">
+                    <div class="flex items-center justify-between mb-2">
+                      <h3 class="font-medium text-gray-900">{source.shortName || source.title}</h3>
+                      <div class="flex items-center gap-2">
+                        <span
+                          class:list={[
+                            "px-2 py-1 text-xs font-medium rounded",
+                            {
+                              "bg-red-50 text-red-700": source.reliability === "LOW",
+                              "bg-yellow-50 text-yellow-700": source.reliability === "MEDIUM",
+                              "bg-green-50 text-green-700": source.reliability === "HIGH",
+                            },
+                          ]}
+                        >
+                          {source.reliability} Reliability
+                        </span>
+                        <span class="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs">
+                          {source.type.replace(/_/g, " ")}
+                        </span>
+                      </div>
+                    </div>
+                    {source.description && <p class="text-sm text-gray-600 mb-2">{source.description}</p>}
+                    <a
+                      href={source.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-sm text-blue-600 hover:underline"
+                    >
+                      View Source →
+                    </a>
+                    <div class="text-xs text-gray-500 mt-2">
+                      Published: {new Date(source.publishedAt).toLocaleDateString()}
                     </div>
                   </div>
-                  {source.description && (
-                    <p class="text-sm text-gray-600 mb-2">{source.description}</p>
-                  )}
-                  <a
-                    href={source.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="text-sm text-blue-600 hover:underline"
-                  >
-                    View Source →
-                  </a>
-                  <div class="text-xs text-gray-500 mt-2">
-                    Published: {new Date(source.publishedAt).toLocaleDateString()}
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )
+        }
       </div>
     </div>
   </div>
