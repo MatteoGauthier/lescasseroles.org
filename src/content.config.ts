@@ -7,13 +7,14 @@ const entity = defineCollection({
     pattern: "**/*.md",
     base: "content/entities",
   }),
-  schema: z.object({
-    type: z.string(),
-    name: z.string(),
-    slug: z.string(),
-    description: z.string().optional(),
-    image: z.string().optional(),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      type: z.string(),
+      name: z.string(),
+      slug: z.string(),
+      description: z.string().optional(),
+      image: image().optional(),
+    }),
 })
 
 const categorySlugs = ["politique", "ethique", "lobbying", "justice", "medias", "internet", "scandale"] as const

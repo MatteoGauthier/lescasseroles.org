@@ -3,6 +3,7 @@ import { getCollection, render, getEntry, getEntries } from "astro:content"
 import Layout from "../../layouts/Layout.astro"
 import { coerce } from "astro:schema"
 import type { CollectionEntry } from "astro:content"
+import { Image } from "astro:assets"
 
 // 1. Generate a new path for every collection entry
 export async function getStaticPaths() {
@@ -33,8 +34,6 @@ for (const source of controversy.data.sources) {
     }
   }
 }
-
-console.log(informationSources)
 ---
 
 <Layout title={controversy.data.title}>
@@ -126,10 +125,12 @@ console.log(informationSources)
                           .toUpperCase()
 
                         return entity.data.image ? (
-                          <img
+                          <Image
                             src={entity.data.image}
                             alt={entity.data.name}
                             class="w-12 h-12 rounded-full object-cover flex-shrink-0 entity-image"
+                            width={48}
+                            height={48}
                             data-initials={initials}
                           />
                         ) : (

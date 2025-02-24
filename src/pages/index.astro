@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets"
 import Layout from "../layouts/Layout.astro"
 import { getCollection, getEntries } from "astro:content"
 
@@ -13,23 +14,23 @@ const recentControversies = [...controversies]
   .slice(0, 6)
 
 // Get most involved entities
-const entityInvolvementCount = entities.map(entity => ({
-  entity,
-  count: controversies.filter(controversy => 
-    controversy.data.entities.some(ref => ref.id === entity.id)
-  ).length
-})).sort((a, b) => b.count - a.count)
+const entityInvolvementCount = entities
+  .map((entity) => ({
+    entity,
+    count: controversies.filter((controversy) => controversy.data.entities.some((ref) => ref.id === entity.id)).length,
+  }))
+  .sort((a, b) => b.count - a.count)
   .slice(0, 6)
 
 // Get controversies by category
 const controversiesByCategory = await Promise.all(
-  categories.map(async category => {
-    const categoryControversies = controversies.filter(controversy =>
-      controversy.data.categories.some(ref => ref.id === category.id)
+  categories.map(async (category) => {
+    const categoryControversies = controversies.filter((controversy) =>
+      controversy.data.categories.some((ref) => ref.id === category.id)
     )
     return {
       category,
-      controversies: categoryControversies.slice(0, 3)
+      controversies: categoryControversies.slice(0, 3),
     }
   })
 )
@@ -41,11 +42,10 @@ const controversiesByCategory = await Promise.all(
     <div class="bg-gradient-to-br from-orange-50 to-orange-100">
       <div class="container mx-auto py-16 px-4">
         <div class="max-w-3xl">
-          <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Explorez les controverses et polémiques
-          </h1>
+          <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Explorez les controverses et polémiques</h1>
           <p class="text-xl text-gray-600 mb-8">
-            Une base de données collaborative documentant les controverses, leurs acteurs et leurs impacts sur la société.
+            Une base de données collaborative documentant les controverses, leurs acteurs et leurs impacts sur la
+            société.
           </p>
           <div class="flex gap-4">
             <a
@@ -54,7 +54,10 @@ const controversiesByCategory = await Promise.all(
             >
               Explorer les controverses
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                <path
+                  fill-rule="evenodd"
+                  d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                  clip-rule="evenodd"></path>
               </svg>
             </a>
             <a
@@ -73,43 +76,39 @@ const controversiesByCategory = await Promise.all(
       <div class="container mx-auto px-4">
         <div class="flex justify-between items-center mb-8">
           <h2 class="text-2xl font-bold text-gray-900">Controverses Récentes</h2>
-          <a href="/controversies" class="text-orange-600 hover:text-orange-700 font-medium">
-            Voir tout →
-          </a>
+          <a href="/controversies" class="text-orange-600 hover:text-orange-700 font-medium"> Voir tout → </a>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {recentControversies.map((controversy) => (
-            <a
-              href={`/controversies/${controversy.id}`}
-              class="block bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow"
-            >
-              <div class="p-6">
-                <div class="flex items-center justify-between mb-4">
-                  <h3 class="text-lg font-semibold text-gray-900 line-clamp-1">
-                    {controversy.data.title}
-                  </h3>
-                  <span
-                    class:list={[
-                      "px-2 py-1 text-xs font-medium rounded-full",
-                      {
-                        "bg-red-100 text-red-800": controversy.data.impact === "MAJOR",
-                        "bg-yellow-100 text-yellow-800": controversy.data.impact === "MODERATE",
-                        "bg-green-100 text-green-800": controversy.data.impact === "MINOR",
-                      },
-                    ]}
-                  >
-                    {controversy.data.impact}
-                  </span>
+          {
+            recentControversies.map((controversy) => (
+              <a
+                href={`/controversies/${controversy.id}`}
+                class="block bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div class="p-6">
+                  <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900 line-clamp-1">{controversy.data.title}</h3>
+                    <span
+                      class:list={[
+                        "px-2 py-1 text-xs font-medium rounded-full",
+                        {
+                          "bg-red-100 text-red-800": controversy.data.impact === "MAJOR",
+                          "bg-yellow-100 text-yellow-800": controversy.data.impact === "MODERATE",
+                          "bg-green-100 text-green-800": controversy.data.impact === "MINOR",
+                        },
+                      ]}
+                    >
+                      {controversy.data.impact}
+                    </span>
+                  </div>
+                  <p class="text-gray-600 text-sm line-clamp-2 mb-4">{controversy.data.description}</p>
+                  <div class="flex items-center text-sm text-gray-500">
+                    <span>{new Date(controversy.data.date).toLocaleDateString()}</span>
+                  </div>
                 </div>
-                <p class="text-gray-600 text-sm line-clamp-2 mb-4">
-                  {controversy.data.description}
-                </p>
-                <div class="flex items-center text-sm text-gray-500">
-                  <span>{new Date(controversy.data.date).toLocaleDateString()}</span>
-                </div>
-              </div>
-            </a>
-          ))}
+              </a>
+            ))
+          }
         </div>
       </div>
     </section>
@@ -119,37 +118,36 @@ const controversiesByCategory = await Promise.all(
       <div class="container mx-auto px-4">
         <div class="flex justify-between items-center mb-8">
           <h2 class="text-2xl font-bold text-gray-900">Entités Notables</h2>
-          <a href="/entities" class="text-orange-600 hover:text-orange-700 font-medium">
-            Voir tout →
-          </a>
+          <a href="/entities" class="text-orange-600 hover:text-orange-700 font-medium"> Voir tout → </a>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-          {entityInvolvementCount.map(({ entity, count }) => (
-            <a
-              href={`/entities/${entity.id}`}
-              class="block text-center group"
-            >
-              <div class="mb-3 mx-auto">
-                {entity.data.image ? (
-                  <img
-                    src={entity.data.image}
-                    alt={entity.data.name}
-                    class="w-24 h-24 rounded-full object-cover mx-auto border-2 border-white shadow-sm group-hover:shadow-md transition-shadow"
-                  />
-                ) : (
-                  <div class="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center mx-auto border-2 border-white shadow-sm group-hover:shadow-md transition-shadow">
-                    <span class="text-3xl text-gray-400">
-                      {entity.data.name.charAt(0)}
-                    </span>
-                  </div>
-                )}
-              </div>
-              <h3 class="font-medium text-gray-900 group-hover:text-orange-600 transition-colors">
-                {entity.data.name}
-              </h3>
-              <p class="text-sm text-gray-500">{count} controverse{count > 1 ? "s" : ""}</p>
-            </a>
-          ))}
+          {
+            entityInvolvementCount.map(({ entity, count }) => (
+              <a href={`/entities/${entity.id}`} class="block text-center group">
+                <div class="mb-3 mx-auto">
+                  {entity.data.image ? (
+                    <Image
+                      src={entity.data.image}
+                      alt={entity.data.name}
+                      width={96}
+                      height={96}
+                      class="w-24 h-24 rounded-full object-cover mx-auto border-2 border-white shadow-sm group-hover:shadow-md transition-shadow"
+                    />
+                  ) : (
+                    <div class="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center mx-auto border-2 border-white shadow-sm group-hover:shadow-md transition-shadow">
+                      <span class="text-3xl text-gray-400">{entity.data.name.charAt(0)}</span>
+                    </div>
+                  )}
+                </div>
+                <h3 class="font-medium text-gray-900 group-hover:text-orange-600 transition-colors">
+                  {entity.data.name}
+                </h3>
+                <p class="text-sm text-gray-500">
+                  {count} controverse{count > 1 ? "s" : ""}
+                </p>
+              </a>
+            ))
+          }
         </div>
       </div>
     </section>
@@ -159,41 +157,35 @@ const controversiesByCategory = await Promise.all(
       <div class="container mx-auto px-4">
         <h2 class="text-2xl font-bold text-gray-900 mb-8">Explorer par Catégorie</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {controversiesByCategory.map(({ category, controversies }) => (
-            <div class="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
-              <div class="p-6">
-                <h3 class="text-xl font-semibold text-gray-900 mb-4">
-                  {category.data.name}
-                </h3>
-                {category.data.description && (
-                  <p class="text-gray-600 text-sm mb-4">{category.data.description}</p>
-                )}
-                <div class="space-y-4">
-                  {controversies.map((controversy) => (
+          {
+            controversiesByCategory.map(({ category, controversies }) => (
+              <div class="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
+                <div class="p-6">
+                  <h3 class="text-xl font-semibold text-gray-900 mb-4">{category.data.name}</h3>
+                  {category.data.description && <p class="text-gray-600 text-sm mb-4">{category.data.description}</p>}
+                  <div class="space-y-4">
+                    {controversies.map((controversy) => (
+                      <a
+                        href={`/controversies/${controversy.id}`}
+                        class="block hover:bg-orange-50 p-3 -mx-3 rounded-lg transition-colors"
+                      >
+                        <h4 class="font-medium text-gray-900 mb-1">{controversy.data.title}</h4>
+                        <p class="text-sm text-gray-500">{new Date(controversy.data.date).toLocaleDateString()}</p>
+                      </a>
+                    ))}
+                  </div>
+                  {controversies.length > 0 && (
                     <a
-                      href={`/controversies/${controversy.id}`}
-                      class="block hover:bg-orange-50 p-3 -mx-3 rounded-lg transition-colors"
+                      href={`/categories/${category.id}`}
+                      class="inline-block mt-4 text-sm text-orange-600 hover:text-orange-700 font-medium"
                     >
-                      <h4 class="font-medium text-gray-900 mb-1">
-                        {controversy.data.title}
-                      </h4>
-                      <p class="text-sm text-gray-500">
-                        {new Date(controversy.data.date).toLocaleDateString()}
-                      </p>
+                      Voir plus →
                     </a>
-                  ))}
+                  )}
                 </div>
-                {controversies.length > 0 && (
-                  <a
-                    href={`/categories/${category.id}`}
-                    class="inline-block mt-4 text-sm text-orange-600 hover:text-orange-700 font-medium"
-                  >
-                    Voir plus →
-                  </a>
-                )}
               </div>
-            </div>
-          ))}
+            ))
+          }
         </div>
       </div>
     </section>
