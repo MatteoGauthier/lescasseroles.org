@@ -97,7 +97,9 @@ for (const source of controversy.data.sources) {
               <h2 class="text-sm font-medium text-surface-300 mb-2">Categories</h2>
               <div class="flex flex-wrap gap-2">
                 {categories.map((category) => (
-                  <span class="px-3 py-1 bg-primary-900/50 text-primary-300 rounded-full text-sm">{category.data.name}</span>
+                  <span class="px-3 py-1 bg-primary-900/50 text-primary-300 rounded-full text-sm">
+                    {category.data.name}
+                  </span>
                 ))}
               </div>
             </div>
@@ -154,7 +156,7 @@ for (const source of controversy.data.sources) {
         </div>
 
         <!-- Main Content -->
-        <div class="prose-sm max-w-none prose-invert">
+        <div class="prose-sm max-w-none prose-invert prose-li:list-disc">
           <Content />
         </div>
 
@@ -184,7 +186,9 @@ for (const source of controversy.data.sources) {
                                         class="mt-8 rounded-2xl mx-auto bg-surface-800 p-8 transition-all duration-300 shadow-xl backdrop:backdrop-blur-lg backdrop:bg-surface-200/10 w-full max-w-2xl"
                                       >
                                         <div class="space-y-6">
-                                          {sourceData.name && <h3 class="text-2xl font-bold text-surface-100">{sourceData.name}</h3>}
+                                          {sourceData.name && (
+                                            <h3 class="text-2xl font-bold text-surface-100">{sourceData.name}</h3>
+                                          )}
 
                                           {sourceData.description && (
                                             <div>
@@ -203,8 +207,19 @@ for (const source of controversy.data.sources) {
                                                 class="text-primary-400 hover:text-primary-300 transition-colors hover:underline inline-flex items-center gap-1"
                                               >
                                                 {sourceData.website}
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24">
-                                                  <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6m-7 1l9-9m-5 0h5v5"/>
+                                                <svg
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                  class="w-4 h-4"
+                                                  viewBox="0 0 24 24"
+                                                >
+                                                  <path
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="M12 6H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6m-7 1l9-9m-5 0h5v5"
+                                                  />
                                                 </svg>
                                               </a>
                                             </div>
@@ -212,7 +227,9 @@ for (const source of controversy.data.sources) {
 
                                           {sourceData.links?.length > 0 && (
                                             <div>
-                                              <h4 class="text-sm font-semibold text-surface-300 mb-2">Liens additionnels</h4>
+                                              <h4 class="text-sm font-semibold text-surface-300 mb-2">
+                                                Liens additionnels
+                                              </h4>
                                               <ul class="list-disc list-inside space-y-2">
                                                 {sourceData.links.map((link) => (
                                                   <li>
@@ -223,8 +240,19 @@ for (const source of controversy.data.sources) {
                                                       class="text-primary-400 hover:text-primary-300 transition-colors hover:underline inline-flex items-center gap-1"
                                                     >
                                                       {link}
-                                                      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24">
-                                                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6m-7 1l9-9m-5 0h5v5"/>
+                                                      <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        class="w-4 h-4"
+                                                        viewBox="0 0 24 24"
+                                                      >
+                                                        <path
+                                                          fill="none"
+                                                          stroke="currentColor"
+                                                          stroke-linecap="round"
+                                                          stroke-linejoin="round"
+                                                          stroke-width="2"
+                                                          d="M12 6H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6m-7 1l9-9m-5 0h5v5"
+                                                        />
                                                       </svg>
                                                     </a>
                                                   </li>
@@ -248,11 +276,7 @@ for (const source of controversy.data.sources) {
                                         class="px-3 cursor-pointer py-1.5 bg-primary-50 hover:bg-primary-100 text-primary-700 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-colors"
                                       >
                                         <span>{sourceData.name}</span>
-                                        <svg
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          class="w-4 h-4"
-                                          viewBox="0 0 24 24"
-                                        >
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24">
                                           <g
                                             fill="none"
                                             stroke="currentColor"
@@ -284,7 +308,12 @@ for (const source of controversy.data.sources) {
                             },
                           ]}
                         >
-                          Fiabilité {source.reliability === "LOW" ? "Faible" : source.reliability === "MEDIUM" ? "Moyenne" : "Haute"}
+                          Fiabilité{" "}
+                          {source.reliability === "LOW"
+                            ? "Faible"
+                            : source.reliability === "MEDIUM"
+                              ? "Moyenne"
+                              : "Haute"}
                         </span>
                         <span class="px-3 py-1.5 bg-primary-50 text-primary-700 rounded-lg text-xs font-medium">
                           {source.type.replace(/_/g, " ")}
@@ -300,7 +329,14 @@ for (const source of controversy.data.sources) {
                     >
                       Voir la source
                       <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24">
-                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6m-7 1l9-9m-5 0h5v5"/>
+                        <path
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M12 6H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6m-7 1l9-9m-5 0h5v5"
+                        />
                       </svg>
                     </a>
                     <div class="text-xs text-surface-400 mt-3">
@@ -322,8 +358,7 @@ for (const source of controversy.data.sources) {
                 href="https://github.com/MatteoGauthier/lescasseroles.org"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="text-primary-400 hover:text-primary-300 hover:underline"
-              >dépôt GitHub</a
+                class="text-primary-400 hover:text-primary-300 hover:underline">dépôt GitHub</a
               > pour contribuer dès maintenant !
             </p>
           </div>

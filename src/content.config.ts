@@ -49,7 +49,7 @@ const controversy = defineCollection({
       z.object({
         title: z.string(),
         description: z.string().optional(),
-        type: z.enum(["NEWS", "DOCUMENT", "SOCIAL_MEDIA", "OFFICIAL_STATEMENT", "COURT_DOCUMENT", "OTHER"]),
+        type: z.enum(["NEWS", "DOCUMENT", "SOCIAL_MEDIA", "OFFICIAL_STATEMENT", "COURT_DOCUMENT", "OTHER", "INSTITUTIONAL"]),
         reliability: z.enum(["LOW", "MEDIUM", "HIGH"]),
         url: z.string().url(),
         publishedAt: z.coerce.date(),
