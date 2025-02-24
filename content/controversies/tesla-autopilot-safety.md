@@ -1,21 +1,21 @@
 ---
 createdAt: 2024-02-24
 updatedAt: 2024-02-24
-title: "Tesla Autopilot Safety Concerns and Fatal Accidents"
-description: "Tesla's Autopilot system has been linked to multiple fatal accidents, leading to NHTSA investigations and raising questions about autonomous driving safety."
+title: "Préoccupations concernant la sécurité de l'Autopilot Tesla"
+description: "Le système Autopilot de Tesla a été impliqué dans plusieurs accidents mortels, conduisant à des enquêtes de la NHTSA et soulevant des questions sur la sécurité de la conduite autonome."
 date: 2016-05-01
 impact: "MAJOR"
 status: "CONFIRMED"
 entities: ["elon-musk", "tesla-inc"]
 sources:
   - title: "Tesla Autopilot Was Uniquely Risky—and May Still Be"
-    description: "Investigation reveals multiple fatal crashes linked to Tesla's Autopilot system"
+    description: "L'enquête révèle de multiples accidents mortels liés au système Autopilot de Tesla"
     type: "NEWS"
     reliability: "HIGH"
     url: "https://www.wired.com/story/tesla-autopilot-risky-deaths-crashes-nhtsa-investigation/"
     publishedAt: 2024-04-15
   - title: "US probes Tesla's Full Self-Driving software in 2.4 mln cars after fatal crash"
-    description: "NHTSA investigation into Tesla's self-driving technology following accidents"
+    description: "Enquête de la NHTSA sur la technologie de conduite autonome de Tesla suite à des accidents"
     type: "NEWS"
     reliability: "HIGH"
     url: "https://www.reuters.com/technology/tesla-recall-2024-02-16/"
@@ -23,8 +23,8 @@ sources:
 categories: ["justice", "ethique", "scandale"]
 ---
 
-Tesla's Autopilot system has been the subject of intense scrutiny following multiple fatal accidents. The National Highway Traffic Safety Administration (NHTSA) has documented at least 13 fatal crashes involving the system, leading to extensive investigations into the technology's safety and reliability.
+Le système Autopilot de Tesla a fait l'objet d'un examen minutieux suite à de multiples accidents mortels. L'Administration nationale de la sécurité routière (NHTSA) a documenté au moins 13 accidents mortels impliquant le système, conduisant à des enquêtes approfondies sur la sécurité et la fiabilité de la technologie.
 
-The controversy has escalated with recent investigations covering 2.4 million Tesla vehicles equipped with Full Self-Driving software. These investigations have revealed potential design flaws and raised questions about the system's marketing and deployment.
+La controverse s'est intensifiée avec les récentes enquêtes couvrant 2,4 millions de véhicules Tesla équipés du logiciel de conduite entièrement autonome. Ces enquêtes ont révélé des défauts de conception potentiels et soulevé des questions sur le marketing et le déploiement du système.
 
-The incidents have sparked debate about the readiness of autonomous driving technology for public roads and Tesla's approach to testing and deploying such systems. The controversy has significant implications for the future of autonomous vehicle development and regulation. 
+Les incidents ont suscité un débat sur la maturité de la technologie de conduite autonome pour les routes publiques et l'approche de Tesla en matière de test et de déploiement de tels systèmes. La controverse a des implications significatives pour l'avenir du développement et de la réglementation des véhicules autonomes. 

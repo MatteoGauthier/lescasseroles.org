@@ -1,23 +1,26 @@
 ---
 import Layout from "../../layouts/Layout.astro"
 import { getCollection } from "astro:content"
-
+import { Image } from "astro:assets"
 const entities = await getCollection("entity")
 const controversies = await getCollection("controversy")
 
 // Get entity involvement count
-const entityInvolvementCount = entities.map(entity => ({
-  entity,
-  count: controversies.filter(controversy => 
-    controversy.data.entities.some(ref => ref.id === entity.id)
-  ).length
-})).sort((a, b) => b.count - a.count)
+const entityInvolvementCount = entities
+  .map((entity) => ({
+    entity,
+    count: controversies.filter((controversy) => controversy.data.entities.some((ref) => ref.id === entity.id)).length,
+  }))
+  .sort((a, b) => b.count - a.count)
 
 // Get unique types
-const types = [...new Set(entities.map(entity => entity.data.type))]
+const types = [...new Set(entities.map((entity) => entity.data.type))]
 ---
 
-<Layout title="Entités | Les Casseroles" description="Découvrez toutes les entités impliquées dans des controverses sur Les Casseroles.">
+<Layout
+  title="Entités | Les Casseroles"
+  description="Découvrez toutes les entités impliquées dans des controverses sur Les Casseroles."
+>
   <main class="container mx-auto py-8 px-4">
     <div class="max-w-7xl mx-auto">
       <!-- Header with Search -->
@@ -38,8 +41,7 @@ const types = [...new Set(entities.map(entity => entity.data.type))]
             <path
               fill-rule="evenodd"
               d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
-              clip-rule="evenodd"
-            />
+              clip-rule="evenodd"></path>
           </svg>
         </div>
       </div>
@@ -48,17 +50,19 @@ const types = [...new Set(entities.map(entity => entity.data.type))]
         <!-- Filters -->
         <aside class="w-full md:w-64 bg-white p-6 rounded-lg shadow-sm border border-gray-200 h-fit">
           <h2 class="text-lg font-semibold text-gray-900 mb-4">Filtres</h2>
-          
+
           <!-- Type Filter -->
           <div class="mb-6">
             <h3 class="text-sm font-medium text-gray-700 mb-2">Type</h3>
             <div class="space-y-2">
-              {types.map((type) => (
-                <label class="flex items-center">
-                  <input type="checkbox" class="form-checkbox text-orange-600 rounded" value={type} />
-                  <span class="ml-2 text-sm text-gray-600">{type}</span>
-                </label>
-              ))}
+              {
+                types.map((type) => (
+                  <label class="flex items-center">
+                    <input type="checkbox" class="form-checkbox text-orange-600 rounded" value={type} />
+                    <span class="ml-2 text-sm text-gray-600">{type}</span>
+                  </label>
+                ))
+              }
             </div>
           </div>
         </aside>
@@ -66,46 +70,42 @@ const types = [...new Set(entities.map(entity => entity.data.type))]
         <!-- Entities Grid -->
         <div class="flex-1">
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {entityInvolvementCount.map(({ entity, count }) => (
-              <a
-                href={`/entities/${entity.id}`}
-                class="block bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden group"
-              >
-                <div class="aspect-w-16 aspect-h-9 bg-gray-100">
-                  {entity.data.image ? (
-                    <img
-                      src={entity.data.image}
-                      alt={entity.data.name}
-                      class="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div class="w-full h-full flex items-center justify-center bg-orange-50">
-                      <span class="text-6xl text-orange-200 font-bold">
-                        {entity.data.name.charAt(0)}
+            {
+              entityInvolvementCount.map(({ entity, count }) => (
+                <a
+                  href={`/entities/${entity.id}`}
+                  class="block bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden group"
+                >
+                  <div class="aspect-w-16 aspect-h-9 bg-gray-100">
+                    {entity.data.image ? (
+                      <Image src={entity.data.image} alt={entity.data.name} class="w-full h-full object-cover" />
+                    ) : (
+                      <div class="w-full h-full flex items-center justify-center bg-orange-50">
+                        <span class="text-6xl text-orange-200 font-bold">{entity.data.name.charAt(0)}</span>
+                      </div>
+                    )}
+                  </div>
+                  <div class="p-6">
+                    <div class="flex items-start justify-between mb-2">
+                      <h2 class="text-lg font-semibold text-gray-900 group-hover:text-orange-600 transition-colors">
+                        {entity.data.name}
+                      </h2>
+                      <span class="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full">
+                        {entity.data.type}
                       </span>
                     </div>
-                  )}
-                </div>
-                <div class="p-6">
-                  <div class="flex items-start justify-between mb-2">
-                    <h2 class="text-lg font-semibold text-gray-900 group-hover:text-orange-600 transition-colors">
-                      {entity.data.name}
-                    </h2>
-                    <span class="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full">
-                      {entity.data.type}
-                    </span>
+                    {entity.data.description && (
+                      <p class="text-sm text-gray-600 mb-4 line-clamp-2">{entity.data.description}</p>
+                    )}
+                    <div class="flex items-center text-sm text-gray-500">
+                      <span>
+                        {count} controverse{count > 1 ? "s" : ""}
+                      </span>
+                    </div>
                   </div>
-                  {entity.data.description && (
-                    <p class="text-sm text-gray-600 mb-4 line-clamp-2">
-                      {entity.data.description}
-                    </p>
-                  )}
-                  <div class="flex items-center text-sm text-gray-500">
-                    <span>{count} controverse{count > 1 ? "s" : ""}</span>
-                  </div>
-                </div>
-              </a>
-            ))}
+                </a>
+              ))
+            }
           </div>
         </div>
       </div>
@@ -122,8 +122,8 @@ const types = [...new Set(entities.map(entity => entity.data.type))]
     // Add search logic here
   }
 
-  searchInput?.addEventListener('input', handleSearch)
-  checkboxes.forEach(checkbox => {
-    checkbox.addEventListener('change', handleSearch)
+  searchInput?.addEventListener("input", handleSearch)
+  checkboxes.forEach((checkbox) => {
+    checkbox.addEventListener("change", handleSearch)
   })
-</script> 
+</script>
