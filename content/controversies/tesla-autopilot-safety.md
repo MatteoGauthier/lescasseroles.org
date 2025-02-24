@@ -14,12 +14,14 @@ sources:
     reliability: "HIGH"
     url: "https://www.wired.com/story/tesla-autopilot-risky-deaths-crashes-nhtsa-investigation/"
     publishedAt: 2024-04-15
+    source: ["wired"]
   - title: "US probes Tesla's Full Self-Driving software in 2.4 mln cars after fatal crash"
     description: "Enquête de la NHTSA sur la technologie de conduite autonome de Tesla suite à des accidents"
     type: "NEWS"
     reliability: "HIGH"
     url: "https://www.reuters.com/technology/tesla-recall-2024-02-16/"
     publishedAt: 2024-02-16
+    source: ["reuters"]
 categories: ["justice", "ethique", "scandale"]
 ---
 

@@ -162,13 +162,13 @@ for (const source of controversy.data.sources) {
         {
           controversy.data.sources.length > 0 && (
             <div class="mt-8 pt-8 border-t">
-              <h2 class="text-xl font-bold text-gray-900 mb-4">Sources</h2>
+              <h2 class="text-2xl font-bold text-gray-900 mb-6">Sources</h2>
               <div class="space-y-4">
                 {controversy.data.sources.map((source) => (
-                  <div class="p-4 bg-gray-50 rounded-lg">
+                  <div class="p-6 bg-gray-50/50 hover:bg-gray-50 transition-colors rounded-xl border border-gray-100">
                     <div class="flex items-center justify-between mb-2">
-                      <div class="flex items-center gap-2">
-                        <h3 class="font-medium text-gray-900">{source.shortName || source.title}</h3>
+                      <div class="flex items-center gap-3">
+                        <h3 class="text-lg font-semibold text-gray-900">{source.shortName || source.title}</h3>
                         {source.source && source.source.length > 0 && (
                           <div class="flex items-center gap-2">
                             {source.source.map((sourceInfo) => (
@@ -181,45 +181,51 @@ for (const source of controversy.data.sources) {
                                     <>
                                       <dialog
                                         id={sourceInfo.id}
-                                        class="mt-8 rounded-xl mx-auto bg-white p-6 transition-all duration-300 shadow-3xl backdrop:backdrop-blur-md backdrop:bg-opacity-50 w-full max-w-2xl"
+                                        class="mt-8 rounded-2xl mx-auto bg-white p-8 transition-all duration-300 shadow-xl backdrop:backdrop-blur-lg backdrop:bg-black/30 w-full max-w-2xl"
                                       >
-                                        <div class="space-y-4">
-                                          {sourceData.name && <h3 class="text-xl font-bold">{sourceData.name}</h3>}
+                                        <div class="space-y-6">
+                                          {sourceData.name && <h3 class="text-2xl font-bold text-gray-900">{sourceData.name}</h3>}
 
                                           {sourceData.description && (
                                             <div>
-                                              <h4 class="text-sm font-medium text-gray-500">Description</h4>
+                                              <h4 class="text-sm font-semibold text-gray-600 mb-1">Description</h4>
                                               <p class="text-gray-700">{sourceData.description}</p>
                                             </div>
                                           )}
 
                                           {sourceData.website && (
                                             <div>
-                                              <h4 class="text-sm font-medium text-gray-500">Website</h4>
+                                              <h4 class="text-sm font-semibold text-gray-600 mb-1">Site web</h4>
                                               <a
                                                 href={sourceData.website}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                class="text-blue-600 hover:underline"
+                                                class="text-blue-600 hover:text-blue-700 transition-colors hover:underline inline-flex items-center gap-1"
                                               >
                                                 {sourceData.website}
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24">
+                                                  <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6m-7 1l9-9m-5 0h5v5"/>
+                                                </svg>
                                               </a>
                                             </div>
                                           )}
 
                                           {sourceData.links?.length > 0 && (
                                             <div>
-                                              <h4 class="text-sm font-medium text-gray-500">Additional Links</h4>
-                                              <ul class="list-disc list-inside space-y-1">
+                                              <h4 class="text-sm font-semibold text-gray-600 mb-2">Liens additionnels</h4>
+                                              <ul class="list-disc list-inside space-y-2">
                                                 {sourceData.links.map((link) => (
                                                   <li>
                                                     <a
                                                       href={link}
                                                       target="_blank"
                                                       rel="noopener noreferrer"
-                                                      class="text-blue-600 hover:underline"
+                                                      class="text-blue-600 hover:text-blue-700 transition-colors hover:underline inline-flex items-center gap-1"
                                                     >
                                                       {link}
+                                                      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24">
+                                                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6m-7 1l9-9m-5 0h5v5"/>
+                                                      </svg>
                                                     </a>
                                                   </li>
                                                 ))}
@@ -230,23 +236,21 @@ for (const source of controversy.data.sources) {
                                           <button
                                             type="button"
                                             onclick={`document.getElementById('${sourceInfo.id}').close()`}
-                                            class="mt-6 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg text-sm font-medium transition-colors"
+                                            class="mt-8 px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-xl text-sm font-medium transition-colors w-full"
                                           >
-                                            Close
+                                            Fermer
                                           </button>
                                         </div>
                                       </dialog>
                                       <button
                                         type="button"
                                         onclick={`document.getElementById('${sourceInfo.id}').showModal()`}
-                                        class="px-2 cursor-pointer py-1 bg-blue-50 text-blue-700 rounded text-xs flex items-center gap-1"
+                                        class="px-3 cursor-pointer py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-colors"
                                       >
                                         <span>{sourceData.name}</span>
                                         <svg
                                           xmlns="http://www.w3.org/2000/svg"
                                           class="w-4 h-4"
-                                          width="32"
-                                          height="32"
                                           viewBox="0 0 24 24"
                                         >
                                           <g
@@ -269,10 +273,10 @@ for (const source of controversy.data.sources) {
                           </div>
                         )}
                       </div>
-                      <div class="flex items-center gap-2">
+                      <div class="flex items-center gap-3">
                         <span
                           class:list={[
-                            "px-2 py-1 text-xs font-medium rounded",
+                            "px-3 py-1.5 text-xs font-medium rounded-lg",
                             {
                               "bg-red-50 text-red-700": source.reliability === "LOW",
                               "bg-yellow-50 text-yellow-700": source.reliability === "MEDIUM",
@@ -280,23 +284,26 @@ for (const source of controversy.data.sources) {
                             },
                           ]}
                         >
-                          {source.reliability} Reliability
+                          Fiabilité {source.reliability === "LOW" ? "Faible" : source.reliability === "MEDIUM" ? "Moyenne" : "Haute"}
                         </span>
-                        <span class="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs">
+                        <span class="px-3 py-1.5 bg-blue-50 text-blue-700 rounded-lg text-xs font-medium">
                           {source.type.replace(/_/g, " ")}
                         </span>
                       </div>
                     </div>
-                    {source.description && <p class="text-sm text-gray-600 mb-2">{source.description}</p>}
+                    {source.description && <p class="text-sm text-gray-600 mb-3">{source.description}</p>}
                     <a
                       href={source.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      class="text-sm text-blue-600 hover:underline"
+                      class="text-sm text-blue-600 hover:text-blue-700 transition-colors hover:underline inline-flex items-center gap-1.5"
                     >
-                      View Source →
+                      Voir la source
+                      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6m-7 1l9-9m-5 0h5v5"/>
+                      </svg>
                     </a>
-                    <div class="text-xs text-gray-500 mt-2">
+                    <div class="text-xs text-gray-500 mt-3">
                       Published: {new Date(source.publishedAt).toLocaleDateString()}
                     </div>
                   </div>
@@ -315,7 +322,8 @@ for (const source of controversy.data.sources) {
                 href="https://github.com/MatteoGauthier/casseroles.org"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="text-blue-600 hover:underline">dépôt GitHub</a
+                class="text-blue-600 hover:underline"
+              >dépôt GitHub</a
               > pour contribuer dès maintenant !
             </p>
           </div>

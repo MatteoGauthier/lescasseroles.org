@@ -14,12 +14,14 @@ sources:
     reliability: "HIGH"
     url: "https://www.theguardian.com/technology/2023/nov/16/elon-musk-antisemitic-tweet-adl"
     publishedAt: 2023-11-16
+    source: ["the-guardian"]
   - title: "Analysis: With anti-semitic tweet, Elon Musk reveals his 'actual truth'"
     description: "Analyse approfondie de la controverse et de ses implications"
     type: "NEWS"
     reliability: "HIGH"
     url: "https://www.cnn.com/2023/11/17/business/elon-musk-reveals-his-actual-truth/index.html"
     publishedAt: 2023-11-17
+    source: ["cnn"]
 categories: ["ethique", "medias", "scandale"]
 ---
 

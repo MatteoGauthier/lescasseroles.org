@@ -14,6 +14,7 @@ sources:
     reliability: "HIGH"
     url: "https://www.thenation.com/article/society/tesla-racism-sexual-harassment/"
     publishedAt: 2024-04-10
+    source: ["the-nation"]
   - title: "EEOC Sues Tesla for racial harassment and retaliation"
     description: "Action en justice officielle de l'EEOC contre Tesla pour discrimination au travail"
     type: "COURT_DOCUMENT"

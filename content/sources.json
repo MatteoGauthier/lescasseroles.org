@@ -30,5 +30,61 @@
     "website": "https://www.rtl.fr",
     "tags": ["independant"],
     "links": ["https://www.rtl.fr/qui-sommes-nous"]
+  },
+  {
+    "name": "The Guardian",
+    "description": "Journal britannique de référence",
+    "slug": "the-guardian",
+    "website": "https://www.theguardian.com",
+    "tags": ["independant"],
+    "links": ["https://www.theguardian.com/about"]
+  },
+  {
+    "name": "CNN",
+    "description": "Chaîne d'information américaine",
+    "slug": "cnn",
+    "website": "https://www.cnn.com",
+    "tags": ["mainstream"],
+    "links": ["https://www.cnn.com/about"]
+  },
+  {
+    "name": "Wired",
+    "description": "Magazine américain spécialisé dans les technologies",
+    "slug": "wired",
+    "website": "https://www.wired.com",
+    "tags": ["tech"],
+    "links": ["https://www.wired.com/about"]
+  },
+  {
+    "name": "Reuters",
+    "description": "Agence de presse internationale",
+    "slug": "reuters",
+    "website": "https://www.reuters.com",
+    "tags": ["independant"],
+    "links": ["https://www.reuters.com/about"]
+  },
+  {
+    "name": "The Nation",
+    "description": "Magazine progressiste américain",
+    "slug": "the-nation",
+    "website": "https://www.thenation.com",
+    "tags": ["independant"],
+    "links": ["https://www.thenation.com/about"]
+  },
+  {
+    "name": "Euronews",
+    "description": "Chaîne d'information européenne multilingue",
+    "slug": "euronews",
+    "website": "https://www.euronews.com",
+    "tags": ["mainstream"],
+    "links": ["https://www.euronews.com/about"]
+  },
+  {
+    "name": "The Conversation",
+    "description": "Site d'actualités et d'analyses rédigées par des universitaires",
+    "slug": "the-conversation",
+    "website": "https://theconversation.com",
+    "tags": ["academic"],
+    "links": ["https://theconversation.com/us/who-we-are"]
   }
 ] 

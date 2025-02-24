@@ -15,12 +15,14 @@ sources:
     reliability: "HIGH"
     url: "https://www.euronews.com/next/2025/02/13/hate-speech-on-x-now-50-higher-under-elon-musks-leadership-new-study-finds"
     publishedAt: 2025-02-13
+    source: ["euronews"]
   - title: "Hate speech on X surged for at least 8 months after Elon Musk takeover"
     description: "La recherche académique confirme une augmentation soutenue des discours de haine après le changement de propriétaire de la plateforme"
     type: "NEWS"
     reliability: "HIGH"
     url: "https://theconversation.com/hate-speech-on-x-surged-for-at-least-8-months-after-elon-musk-takeover-new-research-249603"
     publishedAt: 2025-02-13
+    source: ["the-conversation"]
 categories: ["ethique", "medias", "internet", "scandale"]
 ---
 
