@@ -28,4 +28,4 @@ Tesla a fait face à de sérieuses allégations concernant sa culture d'entrepri
 
 Les allégations incluent une discrimination raciale systématique, un environnement de travail hostile et des représailles contre les employés ayant signalé ces problèmes. L'implication de l'EEOC a apporté un examen fédéral des pratiques et politiques de travail de Tesla.
 
-Ces problèmes ont soulevé des questions sur la responsabilité des entreprises, l'éthique au travail et l'engagement de l'entreprise à maintenir un environnement de travail sûr et inclusif. La controverse a des implications sur la réputation de Tesla en tant qu'employeur et sa culture d'entreprise plus large. 
+Ces problèmes ont soulevé des questions sur la responsabilité des entreprises, l'éthique au travail et l'engagement de l'entreprise à maintenir un environnement de travail sûr et inclusif. La controverse a des implications sur la réputation de Tesla en tant qu'employeur et sa culture d'entreprise plus large.
