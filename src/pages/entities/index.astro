@@ -78,7 +78,13 @@ const types = [...new Set(entities.map((entity) => entity.data.type))]
                 >
                   <div class="aspect-w-16 aspect-h-9 bg-gray-100">
                     {entity.data.image ? (
-                      <Image src={entity.data.image} alt={entity.data.name} class="w-full h-full object-cover" />
+                      <Image
+                        src={entity.data.image}
+                        alt={entity.data.name}
+                        width={100}
+                        height={100}
+                        class="w-full h-full object-cover"
+                      />
                     ) : (
                       <div class="w-full h-full flex items-center justify-center bg-orange-50">
                         <span class="text-6xl text-orange-200 font-bold">{entity.data.name.charAt(0)}</span>
