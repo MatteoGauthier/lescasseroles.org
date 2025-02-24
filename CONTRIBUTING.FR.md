@@ -1,6 +1,6 @@
-# Contribuer à Casseroles.org
+# Contribuer à lescasseroles.org
 
-Merci de votre intérêt pour contribuer à Casseroles.org ! Ce document fournit les directives pour assurer des contributions de haute qualité.
+Merci de votre intérêt pour contribuer à lescasseroles.org ! Ce document fournit les directives pour assurer des contributions de haute qualité.
 
 ## Directives de Contenu
 
@@ -58,4 +58,4 @@ Nous nous engageons à maintenir un environnement respectueux et collaboratif. A
 
 Si vous avez des questions sur le processus de contribution, n'hésitez pas à ouvrir une issue dans le dépôt.
 
-Merci de nous aider à améliorer Casseroles.org !
+Merci de nous aider à améliorer lescasseroles.org !

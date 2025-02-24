@@ -1,6 +1,6 @@
-# Contributing to Casseroles.org
+# Contributing to lescasseroles.org
 
-Thank you for your interest in contributing to Casseroles.org! This document provides guidelines to ensure high-quality contributions.
+Thank you for your interest in contributing to lescasseroles.org! This document provides guidelines to ensure high-quality contributions.
 
 ## Content Guidelines
 
@@ -58,4 +58,4 @@ We are committed to maintaining a respectful and collaborative environment. Any 
 
 If you have any questions about the contribution process, please open an issue in the repository.
 
-Thank you for helping make Casseroles.org better!
+Thank you for helping make lescasseroles.org better!
