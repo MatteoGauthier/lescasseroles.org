@@ -86,5 +86,38 @@
     "website": "https://theconversation.com",
     "tags": ["academic"],
     "links": ["https://theconversation.com/us/who-we-are"]
+  },
+  {
+    "name": "Mediapart",
+    "description": "Site web d'information et d'opinion français, créé en 2008 par François Bonnet, Gérard Desportes, Laurent Mauduit, Edwy Plenel, Marie-Hélène Smiejan et d'autres.",
+    "slug": "mediapart",
+    "website": "https://www.mediapart.fr/",
+    "tags": ["independant"],
+    "links": [
+      "https://www.mediapart.fr/",
+      "https://twitter.com/mediapart"
+    ]
+  },
+  {
+    "name": "France Info",
+    "description": "France Info est une chaîne de radio du groupe Radio France, créée en 1987, spécialisée dans l'information en continu.",
+    "slug": "france-info",
+    "website": "https://www.radiofrance.fr/franceinfo/",
+    "tags": [],
+    "links": [
+      "https://www.radiofrance.fr/franceinfo/",
+      "https://twitter.com/franceinfo"
+    ]
+  },
+  {
+    "name": "France TV Info",
+    "description": "Franceinfo est un site d'information en ligne géré par France Télévisions, offrant des actualités nationales et internationales.",
+    "slug": "france-tv-info",
+    "website": "https://www.francetvinfo.fr/",
+    "tags": [],
+    "links": [
+      "https://www.francetvinfo.fr/",
+      "https://twitter.com/franceinfo"
+    ]
   }
 ] 
