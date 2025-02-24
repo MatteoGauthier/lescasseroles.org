@@ -1,0 +1,469 @@
+---
+import Layout from "../layouts/Layout.astro"
+import { getCollection } from "astro:content"
+import { Image } from "astro:assets"
+
+// Fetch all collections
+const entities = await getCollection("entity")
+const controversies = await getCollection("controversy")
+const categories = await getCollection("category")
+
+// Helper function to determine if an image is remote
+function isRemoteImage(image: any): boolean {
+  if (!image) return false
+  if (typeof image === 'string') return image.startsWith('http')
+  return image.src?.startsWith('http') || false
+}
+
+// Helper function to get image dimensions
+function getImageDimensions(image: any) {
+  if (!image) return null
+  if (typeof image === 'object' && image.width && image.height) {
+    return { width: image.width, height: image.height }
+  }
+  return null
+}
+
+// Enhanced image statistics
+const imageStats = {
+  total: entities.filter(e => e.data.image).length,
+  remote: entities.filter(e => isRemoteImage(e.data.image)).length,
+  local: entities.filter(e => e.data.image && !isRemoteImage(e.data.image)).length,
+}
+console.log(entities.map(e => e.data.image))
+// Enhanced image validation
+const imageValidation = {
+  total: entities.filter(e => e.data.image).length,
+  remote: entities.filter(e => isRemoteImage(e.data.image)).length,
+  local: entities.filter(e => e.data.image && !isRemoteImage(e.data.image)).length,
+  notSquare: entities.filter(e => {
+    const dimensions = getImageDimensions(e.data.image)
+    return dimensions && Math.abs(dimensions.width - dimensions.height) > 10
+  }).length,
+}
+
+// Calculate statistics
+const stats = {
+  entities: {
+    total: entities.length,
+    withImage: imageStats.total,
+    withDescription: entities.filter(e => e.data.description).length,
+    remoteImages: imageStats.remote,
+    localImages: imageStats.local,
+  },
+  controversies: {
+    total: controversies.length,
+    byStatus: {
+      ALLEGED: controversies.filter(c => c.data.status === "ALLEGED").length,
+      CONFIRMED: controversies.filter(c => c.data.status === "CONFIRMED").length,
+      DISPROVEN: controversies.filter(c => c.data.status === "DISPROVEN").length,
+    },
+    withSources: controversies.filter(c => c.data.sources.length > 0).length,
+  },
+  categories: {
+    total: categories.length,
+    withDescription: categories.filter(c => c.data.description).length,
+  }
+}
+
+// Find entities without images
+const entitiesWithoutImages = entities
+  .filter(e => !e.data.image)
+  .sort((a, b) => {
+    const aCount = controversies.filter(c => c.data.entities.some(ref => ref.id === a.id)).length
+    const bCount = controversies.filter(c => c.data.entities.some(ref => ref.id === b.id)).length
+    return bCount - aCount
+  })
+  .slice(0, 5)
+
+// Find entities with remote images
+const entitiesWithRemoteImages = entities
+  .filter(e => isRemoteImage(e.data.image))
+  .sort((a, b) => {
+    const aCount = controversies.filter(c => c.data.entities.some(ref => ref.id === a.id)).length
+    const bCount = controversies.filter(c => c.data.entities.some(ref => ref.id === b.id)).length
+    return bCount - aCount
+  })
+  .slice(0, 5)
+
+// Find controversies without sources
+const controversiesWithoutSources = controversies
+  .filter(c => c.data.sources.length === 0)
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 5)
+
+// Find entities with non-square images
+const entitiesWithBadImages = entities
+  .filter(e => {
+    const dimensions = getImageDimensions(e.data.image)
+    return dimensions && Math.abs(dimensions.width - dimensions.height) > 10
+  })
+  .sort((a, b) => {
+    const aCount = controversies.filter(c => c.data.entities.some(ref => ref.id === a.id)).length
+    const bCount = controversies.filter(c => c.data.entities.some(ref => ref.id === b.id)).length
+    return bCount - aCount
+  })
+  .slice(0, 5)
+---
+
+<Layout title="Contribuer | Les Casseroles" description="Découvrez comment contribuer à Les Casseroles">
+  <main class="container mx-auto py-8 px-4">
+    <div class="max-w-7xl mx-auto">
+      <!-- Enhanced Stats Overview -->
+      <div class="mb-12">
+        <div class="flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
+          <div>
+            <h1 class="text-3xl font-bold text-surface-100">Contribuer</h1>
+            <p class="mt-2 text-surface-300">
+              Vue d'ensemble et opportunités de contribution
+            </p>
+          </div>
+          <a
+            href="https://github.com/MatteoGauthier/lescasseroles.org"
+            class="inline-flex items-center px-4 py-2 bg-surface-800 text-surface-100 rounded-lg hover:bg-surface-700 transition-colors border border-surface-200/10"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                fill-rule="evenodd"
+                d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            Contribuer sur GitHub
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
+          <!-- Entities Stats -->
+          <div class="bg-surface-800/50 backdrop-blur rounded-xl p-6 border border-surface-200/10">
+            <div class="flex items-start">
+              <div class="p-2 bg-primary-900/50 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+              </div>
+              <div class="ml-4">
+                <p class="text-sm font-medium text-surface-300">Entités</p>
+                <p class="text-2xl font-semibold text-surface-100">{stats.entities.total}</p>
+                <div class="mt-2 space-y-1">
+                  <div class="flex items-center text-xs">
+                    <span class="text-green-400">●</span>
+                    <span class="ml-1 text-surface-300">{stats.entities.withImage} avec image</span>
+                  </div>
+                  <div class="flex items-center text-xs">
+                    <span class="text-yellow-400">●</span>
+                    <span class="ml-1 text-surface-300">{stats.entities.withDescription} avec description</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Controversies Stats -->
+          <div class="bg-surface-800/50 backdrop-blur rounded-xl p-6 border border-surface-200/10">
+            <div class="flex items-start">
+              <div class="p-2 bg-red-900/50 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </div>
+              <div class="ml-4">
+                <p class="text-sm font-medium text-surface-300">Controverses</p>
+                <p class="text-2xl font-semibold text-surface-100">{stats.controversies.total}</p>
+                <div class="mt-2 space-y-1">
+                  <div class="flex items-center text-xs">
+                    <span class="text-green-400">●</span>
+                    <span class="ml-1 text-surface-300">{stats.controversies.byStatus.CONFIRMED} confirmées</span>
+                  </div>
+                  <div class="flex items-center text-xs">
+                    <span class="text-yellow-400">●</span>
+                    <span class="ml-1 text-surface-300">{stats.controversies.byStatus.ALLEGED} alléguées</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Images Stats -->
+          <div class="bg-surface-800/50 backdrop-blur rounded-xl p-6 border border-surface-200/10">
+            <div class="flex items-start">
+              <div class="p-2 bg-blue-900/50 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div class="ml-4">
+                <p class="text-sm font-medium text-surface-300">Images</p>
+                <p class="text-2xl font-semibold text-surface-100">{imageStats.total}</p>
+                <div class="mt-2 space-y-1">
+                  <div class="flex items-center text-xs">
+                    <span class="text-green-400">●</span>
+                    <span class="ml-1 text-surface-300">{imageStats.local} locales</span>
+                  </div>
+                  <div class="flex items-center text-xs">
+                    <span class="text-yellow-400">●</span>
+                    <span class="ml-1 text-surface-300">{imageStats.remote} distantes</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sources Stats -->
+          <div class="bg-surface-800/50 backdrop-blur rounded-xl p-6 border border-surface-200/10">
+            <div class="flex items-start">
+              <div class="p-2 bg-purple-900/50 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15" />
+                </svg>
+              </div>
+              <div class="ml-4">
+                <p class="text-sm font-medium text-surface-300">Sources</p>
+                <p class="text-2xl font-semibold text-surface-100">{stats.controversies.withSources}</p>
+                <div class="mt-2 space-y-1">
+                  <div class="flex items-center text-xs">
+                    <span class="text-red-400">●</span>
+                    <span class="ml-1 text-surface-300">
+                      {stats.controversies.total - stats.controversies.withSources} controverses sans source
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contribution Opportunities -->
+      <div class="space-y-12">
+        <!-- Images Needed -->
+        <section>
+          <h2 class="text-xl font-semibold text-surface-100 mb-4">Images manquantes ou à améliorer</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div class="bg-surface-800 rounded-lg p-4 border border-surface-200/10">
+              <h3 class="text-lg font-medium text-surface-100 mb-2">État des images</h3>
+              <div class="space-y-2">
+                <div class="flex justify-between items-center">
+                  <span class="text-surface-300">Images totales</span>
+                  <span class="text-surface-100">{imageStats.total}</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-surface-300">Images locales</span>
+                  <span class="text-green-400">{imageStats.local}</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-surface-300">Images distantes</span>
+                  <span class="text-yellow-400">{imageStats.remote}</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-surface-300">Format incorrect</span>
+                  <span class="text-red-400">{imageValidation.notSquare}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-surface-800 rounded-lg p-4 border border-surface-200/10">
+              <h3 class="text-lg font-medium text-surface-100 mb-2">Exigences techniques</h3>
+              <ul class="text-surface-300 space-y-1 text-sm">
+                <li>• Format : PNG ou JPG</li>
+                <li>• Dimensions : 256x256px minimum</li>
+                <li>• Ratio : 1:1 (carré)</li>
+                <li>• Taille : 500KB maximum</li>
+              </ul>
+            </div>
+
+            <div class="bg-surface-800 rounded-lg p-4 border border-surface-200/10">
+              <h3 class="text-lg font-medium text-surface-100 mb-2">Recommandations</h3>
+              <ul class="text-surface-300 space-y-1 text-sm">
+                <li>• Préférez les logos officiels</li>
+                <li>• Évitez les fonds complexes</li>
+                <li>• Utilisez des images HD</li>
+                <li>• Stockez en local</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div class="bg-surface-800 rounded-lg border border-surface-200/10 overflow-hidden">
+              <h3 class="text-md font-medium text-surface-100 p-4 border-b border-surface-200/10">
+                Entités sans image ({entitiesWithoutImages.length})
+              </h3>
+              <div class="p-4">
+                <div class="space-y-4">
+                  {entitiesWithoutImages.map((entity) => (
+                    <a
+                      href={`/entities/${entity.id}`}
+                      class="flex items-center justify-between p-4 bg-surface-700 rounded-lg hover:bg-surface-600 transition-colors"
+                    >
+                      <div>
+                        <h3 class="text-surface-100 font-medium">{entity.data.name}</h3>
+                        <p class="text-sm text-surface-400">{entity.data.type}</p>
+                      </div>
+                      <span class="text-primary-400 text-sm">Ajouter une image →</span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {entitiesWithRemoteImages.length > 0 && (
+              <div class="bg-surface-800 rounded-lg border border-surface-200/10 overflow-hidden">
+                <h3 class="text-md font-medium text-surface-100 p-4 border-b border-surface-200/10">
+                  Images à localiser ({entitiesWithRemoteImages.length})
+                </h3>
+                <div class="p-4">
+                  <div class="space-y-4">
+                    {entitiesWithRemoteImages.map((entity) => (
+                      <a
+                        href={`/entities/${entity.id}`}
+                        class="flex items-center justify-between p-4 bg-surface-700 rounded-lg hover:bg-surface-600 transition-colors"
+                      >
+                        <div>
+                          <h3 class="text-surface-100 font-medium">{entity.data.name}</h3>
+                          <p class="text-sm text-surface-400 truncate max-w-md">{entity.data.image}</p>
+                        </div>
+                        <span class="text-primary-400 text-sm">Localiser l'image →</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {entitiesWithBadImages.length > 0 && (
+              <div class="bg-surface-800 rounded-lg border border-surface-200/10 overflow-hidden">
+                <h3 class="text-md font-medium text-surface-100 p-4 border-b border-surface-200/10">
+                  Images au format incorrect ({entitiesWithBadImages.length})
+                </h3>
+                <div class="p-4">
+                  <div class="space-y-4">
+                    {entitiesWithBadImages.map((entity) => {
+                      const dimensions = getImageDimensions(entity.data.image)
+                      return (
+                        <a
+                          href={`/entities/${entity.id}`}
+                          class="flex items-center justify-between p-4 bg-surface-700 rounded-lg hover:bg-surface-600 transition-colors"
+                        >
+                          <div class="flex items-center gap-4">
+                            {entity.data.image && (
+                              <div class="w-12 h-12 rounded bg-surface-600 overflow-hidden flex-shrink-0">
+                                {typeof entity.data.image === 'string' ? (
+                                  <img
+                                    src={entity.data.image}
+                                    alt={entity.data.name}
+                                    class="w-full h-full object-cover"
+                                  />
+                                ) : (
+                                  <Image
+                                    src={entity.data.image}
+                                    alt={entity.data.name}
+                                    width={48}
+                                    height={48}
+                                    class="w-full h-full object-cover"
+                                  />
+                                )}
+                              </div>
+                            )}
+                            <div>
+                              <h3 class="text-surface-100 font-medium">{entity.data.name}</h3>
+                              {dimensions && (
+                                <p class="text-sm text-surface-400">
+                                  {dimensions.width}x{dimensions.height}px
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                          <span class="text-primary-400 text-sm">Corriger le format →</span>
+                        </a>
+                      )
+                    })}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+
+        <!-- Sources Needed -->
+        <section>
+          <h2 class="text-xl font-semibold text-surface-100 mb-4">Sources manquantes</h2>
+          <p class="text-surface-300 mb-6">
+            Ces controverses nécessitent des sources supplémentaires pour étayer les informations.
+          </p>
+          <div class="bg-surface-800 rounded-lg border border-surface-200/10 overflow-hidden">
+            <div class="p-4">
+              <div class="space-y-4">
+                {controversiesWithoutSources.map((controversy) => (
+                  <a
+                    href={`/controversies/${controversy.id}`}
+                    class="flex items-center justify-between p-4 bg-surface-700 rounded-lg hover:bg-surface-600 transition-colors"
+                  >
+                    <div>
+                      <h3 class="text-surface-100 font-medium">{controversy.data.title}</h3>
+                      <p class="text-sm text-surface-400">
+                        {new Date(controversy.data.date).toLocaleDateString()}
+                      </p>
+                    </div>
+                    <span class="text-primary-400 text-sm">Contribuer →</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Contribution Guidelines -->
+        <section>
+          <h2 class="text-xl font-semibold text-surface-100 mb-4">Comment contribuer</h2>
+          <div class="bg-surface-800 rounded-lg border border-surface-200/10 p-6">
+            <div class="prose prose-invert prose-primary max-w-none">
+              <h3>Images</h3>
+              <ul>
+                <li>Format : PNG ou JPG</li>
+                <li>Taille minimale : 256x256 pixels</li>
+                <li>Préférez les images locales aux images distantes</li>
+                <li>Respectez les droits d'auteur et les licences</li>
+              </ul>
+
+              <h3>Sources</h3>
+              <ul>
+                <li>Privilégiez les sources primaires</li>
+                <li>Incluez la date de publication</li>
+                <li>Ajoutez une description pour chaque source</li>
+                <li>Évaluez la fiabilité de la source</li>
+              </ul>
+
+              <h3>Contenu</h3>
+              <ul>
+                <li>Rédigez en français</li>
+                <li>Restez factuel et objectif</li>
+                <li>Citez vos sources</li>
+                <li>Respectez le format Markdown</li>
+              </ul>
+
+              <div class="mt-6">
+                <a
+                  href="https://github.com/MatteoGauthier/lescasseroles.org"
+                  class="inline-flex items-center px-4 py-2 bg-primary-600 text-surface-100 rounded-lg hover:bg-primary-700 transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      fill-rule="evenodd"
+                      d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  Contribuer sur GitHub
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+</Layout> 
