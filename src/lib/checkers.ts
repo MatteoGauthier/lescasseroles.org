@@ -112,22 +112,23 @@ export async function checkLinkStatus(url: string): Promise<{
   try {
     const controller = new AbortController()
     const timeoutId = setTimeout(() => controller.abort(), 5000) // 5 second timeout
+    try {
+      const response = await fetch(url, {
+        method: "HEAD", // Use HEAD request to just check headers without downloading content
+        signal: controller.signal,
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+        },
+      })
 
-    const response = await fetch(url, {
-      method: "HEAD", // Use HEAD request to just check headers without downloading content
-      signal: controller.signal,
-      headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
-      },
-    })
-
-    clearTimeout(timeoutId)
-
-    return {
-      status: response.status,
-      ok: response.ok,
-      statusText: response.statusText,
+      return {
+        status: response.status,
+        ok: response.ok,
+        statusText: response.statusText,
+      }
+    } finally {
+      clearTimeout(timeoutId)
     }
   } catch (error: unknown) {
     // Handle connection errors, timeouts, etc.
